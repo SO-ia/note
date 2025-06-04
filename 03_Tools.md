@@ -1357,7 +1357,8 @@ git clone
 
 8. 
 
-
+> https://blog.csdn.net/yoona333/article/details/144175578
+>
 
 
 
@@ -1458,6 +1459,73 @@ git clone
 ###### log
 
 see in 03_Tools_log.txt
+
+
+
+
+
+### Grammer
+
+#### 1. 空格
+
+##### 基础空格
+
+| 命令   | 效果描述             | 示例代码  | 渲染效果 |
+| :----- | :------------------- | :-------- | :------- |
+| \      | 单个空格             | a\ b      | a b      |
+| \,     | 小空格（约1/6个em）  | a\,b      | a b      |
+| \;     | 中空格（约5/18个em） | a\;b      | a b      |
+| \quad  | 等宽空格（1em）      | a\quad b  | a b      |
+| \qquad | 双倍等宽空格（2em）  | a\qquad b | a  b     |
+
+##### 弹性水平间距
+
+`\hspace{}`命令支持自定义宽度，支持`em`、`cm`等单位：
+
+```latex
+a\hspace{1cm}b % 1厘米水平间距
+```
+
+> [LaTeX中空格与换行的精准控制方法](https://comate.baidu.com/zh/page/UpqYCmQvcg)
+
+
+
+
+
+#### 2. 表格
+
+##### 整体居中
+
+有时文档为两列格式，需要将表格居于两列中间显示，可使用
+
+```latex
+\begin{table*}
+\end{table*}
+```
+
+##### 表格内容整体居中
+
+```latex
+\centering
+```
+
+> [LaTeX：表格内换行与各种居中完美解决](https://www.jianshu.com/p/b6b45402d8b2/)
+
+
+
+
+
+#### 3. 中文
+
+
+
+
+
+
+
+#### 4. 换行
+
+
 
 
 

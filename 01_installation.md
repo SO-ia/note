@@ -654,6 +654,22 @@ RemoteSigned
 
 
 
+#### 设置代码框默认语言
+
+1. D:\A_APP\Typora\resources\app\app\window\frame.js
+
+2. search `select a language`
+
+3. 在 `textContent=e||""` 的 `“”` 内填上 `python`
+
+4. 改后如下
+
+   ```
+   textContent=e||"python"
+   ```
+
+   
+
 
 
 

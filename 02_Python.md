@@ -117,7 +117,7 @@ return tokenizer
 4. `bert-base-chinese` 下载完成提示
 
    ```bash
-   (base) root@autodl-container-19b1118252-be2efcfc:~/autodl-tmp/traditional# huggingface-cli download bert-base-chinese --local-dir /root/autodl-tmp/data/models --local-dir-use-symlinks False
+   (base) root@autodl-container-xxxxx:~/autodl-tmp/traditional# huggingface-cli download bert-base-chinese --local-dir /root/autodl-tmp/data/models/bert-base-chinese --local-dir-use-symlinks False
    /root/miniconda3/lib/python3.8/site-packages/huggingface_hub/commands/download.py:139: FutureWarning: Ignoring --local-dir-use-symlinks. Downloading to a local directory does not use symlinks anymore.
    warnings.warn(
    Fetching 10 files: 0%|| 0/10 [00:00<?, ?it/s]Downloading 'model.safetensors' to '/root/autodl-tmp/data/models/.cache/huggingface/download/xGOKKLRSlIhH692hSVvI1-gpoa8=.3404a1ffd8da507042e8161013ba2a4fc49858b4e3f8fbf5ce5724f94883aec3.incomplete'
@@ -505,6 +505,126 @@ def convert_to_list(x):
 ```
 
 
+
+
+
+
+
+### transformers
+
+```python
+2025-05-25 21:32:16.223129: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-05-25 21:32:16.276311: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-05-25 21:32:17.091248: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+---------------------------------------------------------------------------
+ImportError                               Traceback (most recent call last)
+File ~/miniconda3/lib/python3.8/site-packages/transformers/utils/import_utils.py:1130, in _LazyModule._get_module(self, module_name)
+   1129 try:
+-> 1130     return importlib.import_module("." + module_name, self.__name__)
+   1131 except Exception as e:
+
+File ~/miniconda3/lib/python3.8/importlib/__init__.py:127, in import_module(name, package)
+    126         level += 1
+--> 127 return _bootstrap._gcd_import(name[level:], package, level)
+
+File <frozen importlib._bootstrap>:1014, in _gcd_import(name, package, level)
+
+File <frozen importlib._bootstrap>:991, in _find_and_load(name, import_)
+
+File <frozen importlib._bootstrap>:975, in _find_and_load_unlocked(name, import_)
+
+File <frozen importlib._bootstrap>:671, in _load_unlocked(spec)
+
+File <frozen importlib._bootstrap_external>:848, in exec_module(self, module)
+
+File <frozen importlib._bootstrap>:219, in _call_with_frames_removed(f, *args, **kwds)
+
+File ~/miniconda3/lib/python3.8/site-packages/transformers/models/bert/modeling_tf_bert.py:30, in <module>
+     29 from ...activations_tf import get_tf_activation
+---> 30 from ...modeling_tf_outputs import (
+     31     TFBaseModelOutputWithPastAndCrossAttentions,
+     32     TFBaseModelOutputWithPoolingAndCrossAttentions,
+     33     TFCausalLMOutputWithCrossAttentions,
+     34     TFMaskedLMOutput,
+     35     TFMultipleChoiceModelOutput,
+     36     TFNextSentencePredictorOutput,
+     37     TFQuestionAnsweringModelOutput,
+     38     TFSequenceClassifierOutput,
+     39     TFTokenClassifierOutput,
+     40 )
+     41 from ...modeling_tf_utils import (
+     42     TFCausalLanguageModelingLoss,
+     43     TFMaskedLanguageModelingLoss,
+   (...)
+     53     unpack_inputs,
+     54 )
+
+File ~/miniconda3/lib/python3.8/site-packages/transformers/modeling_tf_outputs.py:27, in <module>
+     23 from .utils import ModelOutput
+     26 @dataclass
+---> 27 class TFBaseModelOutput(ModelOutput):
+     28     """
+     29     Base class for model's outputs, with potential hidden states and attentions.
+     30 
+   (...)
+     44             heads.
+     45     """
+
+File ~/miniconda3/lib/python3.8/site-packages/transformers/utils/generic.py:258, in ModelOutput.__init_subclass__(cls)
+    257 if is_torch_available():
+--> 258     import torch.utils._pytree
+    260     torch.utils._pytree._register_pytree_node(
+    261         cls,
+    262         torch.utils._pytree._dict_flatten,
+    263         lambda values, context: cls(**torch.utils._pytree._dict_unflatten(values, context)),
+    264     )
+
+File ~/miniconda3/lib/python3.8/site-packages/torch/__init__.py:229, in <module>
+    228         _load_global_deps()
+--> 229     from torch._C import *  # noqa: F403
+    231 # Appease the type checker; ordinarily this binding is inserted by the
+    232 # torch._C module initialization code in C
+
+ImportError: /root/miniconda3/lib/python3.8/site-packages/torch/lib/libtorch_cuda.so: undefined symbol: cudaGraphInstantiateWithFlags, version libcudart.so.11.0
+
+The above exception was the direct cause of the following exception:
+
+RuntimeError                              Traceback (most recent call last)
+Input In [2], in <cell line: 8>()
+      6 from sklearn.preprocessing import LabelEncoder
+      7 from sklearn.metrics import classification_report
+----> 8 from transformers import BertTokenizer, TFBertForSequenceClassification
+      9 from transformers import DataCollatorWithPadding
+     10 from transformers import create_optimizer
+
+File <frozen importlib._bootstrap>:1039, in _handle_fromlist(module, fromlist, import_, recursive)
+
+File ~/miniconda3/lib/python3.8/site-packages/transformers/utils/import_utils.py:1121, in _LazyModule.__getattr__(self, name)
+   1119 elif name in self._class_to_module.keys():
+   1120     module = self._get_module(self._class_to_module[name])
+-> 1121     value = getattr(module, name)
+   1122 else:
+   1123     raise AttributeError(f"module {self.__name__} has no attribute {name}")
+
+File ~/miniconda3/lib/python3.8/site-packages/transformers/utils/import_utils.py:1120, in _LazyModule.__getattr__(self, name)
+   1118     value = self._get_module(name)
+   1119 elif name in self._class_to_module.keys():
+-> 1120     module = self._get_module(self._class_to_module[name])
+   1121     value = getattr(module, name)
+   1122 else:
+
+File ~/miniconda3/lib/python3.8/site-packages/transformers/utils/import_utils.py:1132, in _LazyModule._get_module(self, module_name)
+   1130     return importlib.import_module("." + module_name, self.__name__)
+   1131 except Exception as e:
+-> 1132     raise RuntimeError(
+   1133         f"Failed to import {self.__name__}.{module_name} because of the following error (look up to see its"
+   1134         f" traceback):\n{e}"
+   1135     ) from e
+
+RuntimeError: Failed to import transformers.models.bert.modeling_tf_bert because of the following error (look up to see its traceback):
+/root/miniconda3/lib/python3.8/site-packages/torch/lib/libtorch_cuda.so: undefined symbol: cudaGraphInstantiateWithFlags, version libcudart.so.11.0
+```
 
 
 
