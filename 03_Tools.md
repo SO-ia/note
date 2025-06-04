@@ -1355,10 +1355,48 @@ git clone
    git push origin main
    ```
 
-8. 
+8. 不知道什么问题
 
-> https://blog.csdn.net/yoona333/article/details/144175578
->
+   > https://blog.csdn.net/yoona333/article/details/144175578
+
+9. `git push` 失败
+
+   **error**
+
+   ```bash
+   To github.com:SO-ia/note.git
+    ! [rejected]        main -> main (fetch first)
+   error: failed to push some refs to 'github.com:SO-ia/note.git'
+   hint: Updates were rejected because the remote contains work that you do not
+   hint: have locally. This is usually caused by another repository pushing to
+   hint: the same ref. If you want to integrate the remote changes, use
+   hint: 'git pull' before pushing again.
+   hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+   ```
+
+   **reason**
+
+   git 提交代码时未拉取远程最新代码 (在GitHub上修改了文件，未更新到本地就上传本地仓库)
+
+   **solution**
+
+   本地和远程仓库应合并后才能上传本地新文件
+
+   ```bash
+   # 先 pull 下来远程最新代码，会自动合并
+   git pull origin main
+   
+   # 再上传
+   git push -u origin main
+   ```
+
+   **references**
+
+   > https://www.cnblogs.com/Liuyunsan/p/16700260.html
+   >
+   > 包含两种方法，只尝试了方法1
+   >
+   > https://blog.csdn.net/qq_43583236/article/details/142139254
 
 
 
