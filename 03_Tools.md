@@ -1129,6 +1129,8 @@ git clone
 
 
 
+
+
 #### f. proxy
 
 - 设置代理
@@ -1390,6 +1392,10 @@ git clone
    git push -u origin main
    ```
 
+   - 2025.0715
+
+     需要在add，commit前进行，否则出现一堆问题，如无法add文件 (nothing to commit)，pull 错误等
+
    **references**
 
    > https://www.cnblogs.com/Liuyunsan/p/16700260.html
@@ -1397,6 +1403,8 @@ git clone
    > 包含两种方法，只尝试了方法1
    >
    > https://blog.csdn.net/qq_43583236/article/details/142139254
+
+   
 
 
 
@@ -1486,7 +1494,30 @@ git clone
 
      > 要一个多小时我也是服了
 
-  7. 
+  7. cmd 查看安装版本
+  
+     ```powershell
+     C:\Users\%username%>xelatex -v
+     XeTeX 3.141592653-2.6-0.999997 (TeX Live 2025)
+     kpathsea version 6.4.1
+     Copyright 2025 SIL International, Jonathan Kew and Khaled Hosny.
+     There is NO warranty.  Redistribution of this software is
+     covered by the terms of both the XeTeX copyright and
+     the Lesser GNU General Public License.
+     For more information about these matters, see the file
+     named COPYING and the XeTeX source.
+     Primary author of XeTeX: Jonathan Kew.
+     Compiled with ICU version 76.1; using 76.1
+     Compiled with zlib version 1.3.1; using 1.3.1
+     Compiled with FreeType2 version 2.13.3; using 2.13.3
+     Compiled with Graphite2 version 1.3.14; using 1.3.14
+     Compiled with HarfBuzz version 10.2.0; using 10.2.0
+     Compiled with libpng version 1.6.46; using 1.6.46
+     Compiled with pplib version v2.2
+     Compiled with fontconfig version 2.15.0; using 2.15.0
+     ```
+  
+  8. 
 
 
 
@@ -1564,6 +1595,291 @@ a\hspace{1cm}b % 1厘米水平间距
 #### 4. 换行
 
 
+
+
+
+
+
+### error
+
+#### 1
+
+```
+[{
+	"resource": "/d:/path/to/file.tex",
+	"owner": "BibTeX",
+	"severity": 8,
+	"message": "I found no \\bibstyle command",
+	"source": "BibTeX",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 65536
+},{
+	"resource": "/d:/path/to/file.tex",
+	"owner": "BibTeX",
+	"severity": 8,
+	"message": "I found no \\bibdata command",
+	"source": "BibTeX",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 65536
+},{
+	"resource": "/d:/path/to/file.tex",
+	"owner": "BibTeX",
+	"severity": 8,
+	"message": "I found no \\citation commands",
+	"source": "BibTeX",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 65536
+}]
+```
+
+
+
+### 参考模板
+
+> https://blog.csdn.net/z12397_/article/details/108867341?spm=1001.2101.3001.6650.7&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-7-108867341-blog-103210665.235%5Ev43%5Epc_blog_bottom_relevance_base2&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-7-108867341-blog-103210665.235%5Ev43%5Epc_blog_bottom_relevance_base2&utm_relevant_index=13
+
+#### define
+
+```latex
+\documentclass[UTF8]{ctexart}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\begin{document}
+
+\tikzstyle{startstop} = [rectangle,rounded corners, minimum width=3cm,minimum height=1cm,text centered,text width =3cm, draw=black,fill=red!30]
+% \tikzstyle{io} = [trapezium, trapezium left angle = 70,trapezium right angle=110,minimum width=3cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=blue!30]
+\tikzstyle{process} = [rectangle,rounded corners, minimum width=3cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=orange!30]
+\tikzstyle{decision} = [diamond,rounded corners, aspect = 3,text centered,draw=black,fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+\tikzstyle{straightline} = [line width = 1pt,-]
+\tikzstyle{point}=[coordinate]
+
+
+
+\begin{tikzpicture}[node distance=2cm]
+\node (input1) [startstop] {原始法律案例段落};
+\node (process1) [process,right of=input1] {短句};
+\node (process2) [process,right of=process1] {词汇—词频词典};
+\node (process3) [process,right of=process2] {提取词频>2000位置的所有词作为LLM输入的候选词列表 $candidate_kws$};
+\node (process4) [process, right of=process3] {从$candidate_kws$中随机提取200个词作为原始输入列表$original_kws$};
+
+% knowledge
+\node (input2) [startstop, below of=input1] {法律术语库};
+\node (process5) [process, right of=input2] {存储至向量数据库};
+% LLM
+\node (process6) [process, right of=process5] {Qwen2.5-14b};
+\node (process7) [process, right of=process6] {阅读并理解输入的词汇列表};
+\node (process8) [process, right of=process7] {确定每个词的属性和具体含义 (词性、法律意义、适用场景等)};
+\node (process9) [process, right of=process8] {同时满足4个条件则为有效关键词 (存在于数据库中，词性...)};
+\node (process10) [process, right of=process9] {优化条件: 按词频大小顺序保留};
+\node (decision1) [decision, right of=process10] {检查最终输出的每个词是否存在于原始输入列表 $original_kws$};
+\node (process11) [process, right of=decision1] {删除非原始词};
+\node (process12) [process, right of=process11] {输出关键词列表 $tmp_kws$};
+% 程序检查
+% \node (process13) [process, right of=process12] {程序检查};
+\node (decision2) [decision, right of=process12] {$tmp_kws$ 列表的每个词存在于 $original_kws$};
+\node (process13) [process, right of=decision2] {删除非原始词};
+\node (decision3) [decision, right of=decision2] {每个词是否是名词或动词};
+\node (process14) [process, right of=decision3] {删除非名词、非动词};
+\node (decision4) [decision, right of=decision3] {当前提取出的关键词总数 $<k$};
+% \node (process14) [process, right of=decision4] {输出关键词列表};
+\node (stop) [startstop,right of=decision4,node distance=3cm] {输出有效关键词列表 $kws$};
+\node (point1) [point,left of=process4,node distance=5cm]{};
+
+\draw [arrow] (input1) -- (process1);
+\draw [arrow] (process1) -- (process2);
+\draw [arrow] (process2) -- (process3);
+\draw [arrow] (process3) -- (process4);
+\draw [arrow] (process4) -- (process6);
+
+\draw [arrow] (input2) -- (process5);
+\draw [arrow] (process5) -- (process6);
+\draw [arrow] (process6) -- (process7);
+\draw [arrow] (process7) -- (process8);
+\draw [arrow] (process8) -- (process9);
+\draw [arrow] (process9) -- (process10);
+\draw [arrow] (process10) -- (decision1);
+\draw [arrow] (decision1) -- node[anchor=east] {是} (process12);
+\draw [arrow] (decision1) -- node[anchor=east] {否} (process11);
+\draw [arrow] (process11) -- (process12);
+\draw [arrow] (process12) -- (decision2);
+
+\draw [arrow] (decision2) -- node[anchor=east] {是} (decision3);
+\draw [arrow] (decision2) -- node[anchor=east] {否} (process13);
+\draw [arrow] (process13) -- (decision3);
+
+\draw [arrow] (decision3) -- node[anchor=east] {是} (decision4);
+\draw [arrow] (decision2) -- node[anchor=east] {否} (process14);
+\draw [arrow] (process14) -- (decision4);
+
+\draw [arrow] (decision4) -- node[anchor=east] {是} (stop);
+\draw [straightline] (decision4) -|  (point1);
+\draw [arrow] (point1) -- node[anchor=south] {否} (process4);
+
+
+\end{tikzpicture}
+
+\end{document}
+```
+
+
+
+#### copy
+
+```
+\documentclass[a4paper]{article}
+\usepackage[margin=1in]{geometry} % 设置边距，符合Word设定
+\usepackage{ctex}
+\usepackage{lipsum}
+\title{\heiti\zihao{2} This is a test for vscode}
+\author{\songti Ali-loner}
+\date{2020.08.02}
+\begin{document}
+    \maketitle
+\begin{abstract}
+    \lipsum[2]
+\end{abstract}
+\tableofcontents
+\section{This is a section}
+Hello world! 你好，世界 ！
+\end{document}
+```
+
+
+
+#### ds
+
+```
+\documentclass[UTF8]{ctexart}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,fit,calc}
+\usepackage{xcolor}
+\usepackage[margin=1cm]{geometry}
+
+% 定义颜色
+\definecolor{module1}{RGB}{173, 216, 230}  % 浅蓝
+\definecolor{module2}{RGB}{144, 238, 144}  % 浅绿
+\definecolor{module3}{RGB}{255, 218, 185}  % 浅橙
+\definecolor{module4}{RGB}{221, 160, 221}  % 浅紫
+
+% 定义节点样式
+\tikzset{
+    startstop/.style={rectangle, rounded corners, minimum width=3.5cm, minimum height=0.8cm, text centered, draw=black, fill=red!30},
+    process/.style={rectangle, minimum width=3.5cm, minimum height=0.8cm, text centered, draw=black, fill=blue!30},
+    decision/.style={diamond, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=green!30, aspect=2, text width=2cm, align=center},
+    arrow/.style={thick,->,>=stealth},
+    module/.style={rectangle, dashed, draw=black, thick, inner sep=8pt, rounded corners}
+}
+
+\begin{document}
+\thispagestyle{empty}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[node distance=0.6cm and 0.8cm, font=\small]
+
+% ====================== 模块1: 数据预处理 ======================
+\node (input1) [startstop] {原始法律案例文本};
+\node (process1) [process, below=of input1] {分句处理};
+\node (process2) [process, below=of process1] {领域适配分词};
+\node (process3) [process, below=of process2] {去除停用词与低频词};
+\node (process4) [process, below=of process3] {计算TF-IDF值};
+\node (process5) [startstop, below=of process4] {候选关键词集合 $\mathcal{K}$ (Top-2000)};
+
+% 模块1标题框
+\node[module, fit=(input1)(process5), fill=module1!20, label={[anchor=north,inner sep=5pt]above:\textbf{数据预处理模块}}] (module1) {};
+
+% ====================== 模块2: RAG处理系统 ======================
+% 知识库部分
+\node (input2) [startstop, right=6cm of input1] {法律术语库 (THUOCL)};
+\node (process6) [process, below=of input2] {向量化存储 (FAISS)};
+
+% RAG处理核心
+\node (process7) [process, below=3cm of process6] {随机采样150词};
+\node (process8) [process, below=of process7] {Qwen2.5-14b模型处理};
+\node (process9) [process, below=of process8] {语义理解与属性分析};
+
+% 条件过滤子模块
+\node (decision1) [decision, below=of process9] {条件1: 存在于\\术语库?};
+\node (decision2) [decision, below=of decision1] {条件2: 相似度\\>0.3?};
+\node (decision3) [decision, below=of decision2] {条件3: 词性为\\名词/动词?};
+\node (decision4) [decision, below=of decision3] {条件4: 词频\\>100?};
+\node (process10) [process, below=of decision4] {生成临时关键词列表};
+
+% 模块2标题框
+\node[module, fit=(input2)(process6)(process7)(process10), fill=module2!20, label={[anchor=north,inner sep=5pt]above:\textbf{RAG处理系统}}] (module2) {};
+
+% 子模块框 - 条件过滤
+\node[module, fit=(decision1)(decision2)(decision3)(decision4), fill=module3!20, label={[anchor=north,inner sep=5pt]above:\textbf{条件过滤子模块}}] (submodule) {};
+
+% ====================== 模块3: 迭代优化 ======================
+\node (decision5) [decision, below=3cm of process10] {关键词总数\\<30?};
+\node (process11) [process, left=2cm of decision5] {更新候选集};
+\node (process12) [startstop, right=2cm of decision5] {最终关键词列表 $\mathcal{K}_{final}$};
+
+% 模块3标题框
+\node[module, fit=(decision5)(process11)(process12), fill=module4!20, label={[anchor=north,inner sep=5pt]above:\textbf{迭代优化模块}}] (module3) {};
+
+% ====================== 箭头连接 ======================
+% 模块1内部连接
+\draw [arrow] (input1) -- (process1);
+\draw [arrow] (process1) -- (process2);
+\draw [arrow] (process2) -- (process3);
+\draw [arrow] (process3) -- (process4);
+\draw [arrow] (process4) -- (process5);
+
+% 模块1到模块2
+\draw [arrow] (process5.east) -- ++(2,0) |- (process7.west);
+
+% 模块2内部连接
+\draw [arrow] (input2) -- (process6);
+\draw [arrow] (process6) -- (process7);
+\draw [arrow] (process7) -- (process8);
+\draw [arrow] (process8) -- (process9);
+\draw [arrow] (process9) -- (decision1);
+
+% 条件过滤子模块内部连接
+\draw [arrow] (decision1) -- node[right] {是} (decision2);
+\draw [arrow] (decision1) -| ++(1.5,0) node[above, pos=0.75] {否} |- (process7);
+\draw [arrow] (decision2) -- node[right] {是} (decision3);
+\draw [arrow] (decision2) -| ++(1.5,0) node[above, pos=0.75] {否} |- (process7);
+\draw [arrow] (decision3) -- node[right] {是} (decision4);
+\draw [arrow] (decision3) -| ++(1.5,0) node[above, pos=0.75] {否} |- (process7);
+\draw [arrow] (decision4) -- node[right] {是} (process10);
+\draw [arrow] (decision4) -| ++(1.5,0) node[above, pos=0.75] {否} |- (process7);
+\draw [arrow] (process10) -- (decision5);
+
+% 模块3内部连接
+\draw [arrow] (decision5) -- node[above] {是} (process11);
+\draw [arrow] (decision5) -- node[above] {否} (process12);
+\draw [arrow] (process11) |- (process7);
+
+% 模块间标题连接
+\draw [dashed, gray] (module1.east) -- ++(1,0) |- (module2.west);
+\draw [dashed, gray] (module2.south) -- ++(0,-0.5) -| (module3.north);
+
+\end{tikzpicture}
+\caption{法律文本关键词提取流程图}
+\label{fig:keyword_extraction}
+\end{figure}
+\end{document}
+```
+
+
+
+
+
+### references
+
+https://blog.csdn.net/qq_41554005/article/details/120711081
+
+https://blog.csdn.net/Next_SummerAgain/article/details/129780728
 
 
 

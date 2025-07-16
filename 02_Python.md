@@ -317,6 +317,65 @@ from tensorflow_core.python.keras.api._v2.keras import optimizers
 
 
 
+### 8 协程异步操作
+
+#### 1 asyncio.run()
+
+<font color=darkred>下列代码可以运行</font>
+
+```python
+import asyncio
+import time
+async def func_4():
+    print("营养快线")
+
+if __name__=='__main__':
+    g = func_4() # 此时的函数是异步协程函数，此时函数执行得到一个协程对象
+    asyncio.run(g)
+```
+
+##### error
+
+```
+RuntimeError: asyncio.run() cannot be called from a running event loop
+```
+
+##### cause
+
+- `asyncio.run()` 函数是用来运行顶级入口点（即主函数）的，自动创建一个新的事件循环，运行传入的协程，并在协程完成后关闭事件循环
+- 上述报错表明：尝试在一个已经运行的事件循环中调用 `asyncio.run()`
+
+##### solution
+
+> - 不对啊，这个方法是错的，await 不能在 async 外面使用
+>
+>   https://codeleading.com/article/66695602427/
+>
+> - 这个好像讲得清楚一点，下次遇到再看看吧
+>
+>   https://blog.csdn.net/m0_54490473/article/details/142485444
+
+
+
+
+
+
+
+### 9 llama-cpp-python
+
+当时忘记记录了，应该是安装 xinference 时报错
+
+```bash
+ERROR: Failed building wheel for llama-cpp-python
+```
+
+> https://www.iotword.com/31825.html
+>
+
+
+
+
+
 
 
 ## download
@@ -328,6 +387,62 @@ from tensorflow_core.python.keras.api._v2.keras import optimizers
 
 
 ## packages
+
+### Jupyter
+
+#### pycharm cannot run remote jupyter notebook
+
+```python
+jupyter server process failed to start.
+Cannot find remote credentials for target config com.jetbrains.plugins.remotesdk.target.webDeployment. WebDeploymentTargetEnvironmentConfiguration@xxxxxx
+```
+
+##### solution (not work……)
+
+打开 jupyter 界面 —— 打开开发者选项 (F12) —— Network ——FETCH/XHR —— 查看kernels?xxxxxx —— Request Headers —— Authorization —— 复制从 `token` 到 结尾的所有内容
+
+![002](assets/python/002.png)
+
+粘贴到 pycharm —— settings ——jupyter servers —— configured server ——apply —— ok
+
+![001](assets/python/001.png)
+
+不生效不知道什么原因。。。一直 apply，ok 都没用
+
+##### reference
+
+> https://blog.csdn.net/qq_45329568/article/details/127850826
+
+
+
+
+
+
+
+### tensorflow
+
+#### 1
+
+```bash
+2025-06-07 11:25:03.515264: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-06-07 11:25:03.570208: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-06-07 11:25:04.498482: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+```
+
+过了一会，不知道咋的又没了，下次有问题看看这个吧
+
+> [TF-TRT Warning: Could not find TensorRT · Issue #64809 · tensorflow/tensorflow](https://github.com/tensorflow/tensorflow/issues/64809)
+
+好好好，又回来了, 不管了就这样吧，能跑就行，受不了了
+
+
+
+
+
+
+
+
 
 ### wandb
 
@@ -353,7 +468,7 @@ os.environ["WANDB_DISABLED"] = "true"
 
 1. https://wandb.ai/authorize?ref = models
 2. github 账号登录授权
-   ![0](assets\python\0.png)
+   ![000](assets\python\000.png)
 3. 
 
 > https://blog.csdn.net/weixin_53538865/article/details/136390750
@@ -432,12 +547,6 @@ TypeError: __init__() got an unexpected keyword argument 'batch_first'
 
 #### 2. pytorch-crf
 
-
-
-
-
-
-
 ```python
 # 安装
 pip install pytorch-crf
@@ -504,6 +613,38 @@ def convert_to_list(x):
         return x.tolist()
 ```
 
+#### utils 和 _C未定义
+
+```python
+cannot import name '_hpu' from 'torch._utils' (/root/miniconda3/lib/python3.8/site-packages/torch/_utils.py)
+```
+
+```python
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+Input In [9], in <cell line: 1>()
+----> 1 import torch
+      2 print(torch.__version__)
+
+File ~/miniconda3/lib/python3.8/site-packages/torch/__init__.py:465, in <module>
+    451         raise ImportError(textwrap.dedent('''
+    452             Failed to load PyTorch C extensions:
+    453                 It appears that PyTorch has loaded the `torch/_C` folder
+   (...)
+    461                 or by running Python from a different directory.
+    462             ''').strip()) from None
+    463     raise  # If __file__ is not None the cause is unknown, so just re-raise.
+--> 465 for name in dir(_C):
+    466     if name[0] != '_' and not name.endswith('Base'):
+    467         __all__.append(name)
+
+NameError: name '_C' is not defined
+```
+
+##### solution
+
+ok fine, 重启内核解决，吴大羽
+
 
 
 
@@ -511,6 +652,10 @@ def convert_to_list(x):
 
 
 ### transformers
+
+#### 1 Failed to import transformers.models.bert.modeling_tf_bert
+
+##### no solution
 
 ```python
 2025-05-25 21:32:16.223129: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
