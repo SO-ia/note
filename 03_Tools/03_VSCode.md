@@ -146,9 +146,9 @@ solution
 
 
 
-#### Jupyter
+### Jupyter
 
-##### Cell命令模式
+#### Cell命令模式
 
 目前支持的Jupyter Notebook快捷:
 
@@ -171,7 +171,7 @@ solution
 | Shift-Space | 向上滚动                                             |
 | Space       | 向下滚动                                             |
 
-##### Cell编辑模式
+#### Cell编辑模式
 
 快捷键(只描述与编辑相关的那些快捷键):
 
@@ -192,13 +192,13 @@ solution
 
 
 
-#### HTML
+### HTML
 
-##### Live Server
+#### Live Server
 
 页面实时预览插件
 
-##### 头部注释
+#### 头部注释
 
 ```json
 {
@@ -336,7 +336,7 @@ solution
 
 
 
-##### references
+#### references
 
 > [VSCode 插件：KoroFileHeader 深度指南：自动生成注释与代码片段定制-CSDN 博客](https://blog.csdn.net/qq_41972807/article/details/123054532?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-123054532-blog-130366752.235^v43^pc_blog_bottom_relevance_base9&spm=1001.2101.3001.4242.1&utm_relevant_index=2)
 >
@@ -348,15 +348,15 @@ solution
 
 
 
-#### Vue
+### Vue
 
 https://marketplace.visualstudio.com/_apis/public/gallery/publishers/Vue/vsextensions/volar/2.2.10/vspackage
 
-##### error
+#### error
 
 1.80.8 版本 vscode 不支持该版本插件，而且无法选择低版本下载
 
-##### solution
+#### solution
 
 1. 下载 vsix 文件
 
@@ -386,15 +386,42 @@ https://marketplace.visualstudio.com/_apis/public/gallery/publishers/Vue/vsexten
 
 
 
-### settings
+## settings
 
-#### 插件安装位置
+### 插件安装位置
 
 https://blog.csdn.net/weixin_43751329/article/details/122506815
 
 
+### 基础配置
+#### CTRL + 鼠标滚轮
+1. 通过设置界面启用
 
-### clear cache
+    打开 VSCode，点击菜单栏中的 文件 -> 首选项 -> 设置。
+
+    在右上角的搜索框中输入 mouse wheel zoom。
+
+    找到 Editor: Mouse Wheel Zoom 选项，并勾选其前面的复选框。
+    
+2. 修改 settings.json 文件
+
+    打开 VSCode，点击 文件 -> 首选项 -> 设置。
+
+    点击右上角的 打开 settings.json。
+
+    在文件中添加以下配置：
+    "editor.mouseWheelZoom": true
+    
+    保存文件后重启 VSCode。
+
+    示例代码
+    ```json
+    {
+      "editor.mouseWheelZoom": true
+    }
+    ```
+
+## clear cache
 
 route: **C:\Users\%username%\AppData\Local\Microsoft\vscode-cpptools**
 
@@ -410,7 +437,7 @@ VsCode 是一款 **轻量级** 代码编辑器
 
 好家伙，于是我决定治理一下 VsCode，让 VsCode 变得真正的轻量级。
 
-#### VsCode 的空间占用分析
+### VsCode 的空间占用分析
 
 VsCode 所占用的空间，主要包括四大部分（下面是我写此博客时统计的结果）：
 
@@ -421,7 +448,7 @@ VsCode 所占用的空间，主要包括四大部分（下面是我写此博客�
 
 可以定期删除的地方，有 `3. ipch`（可完全删除） 和 `4. Romaing`（不可完全删除）
 
-##### 4. Romaing 中，到底哪些可以定期删除
+#### 4. Romaing 中，到底哪些可以定期删除
 
 对 `%userprofile%\AppData\Roaming\Code` 中的文件进行更进一步地分析，我得到了如下结论：
 
@@ -448,7 +475,7 @@ VsCode 所占用的空间，主要包括四大部分（下面是我写此博客�
     %userprofile%\AppData\Roaming\Code\User\snippets    这个不能删，并且重装还得记得备份（如果没有自动还原的话）这个是用户自定义的代码片段
 ```
 
-#### 定时删除目录
+### 定时删除目录
 
 1. `%userprofile%\AppData\Local\Microsoft\vscode-cpptools\ipch`
 2. `%userprofile%\AppData\Roaming\Code\CachedExtensionVSIXs`
@@ -507,7 +534,7 @@ goto end
 
 最好关闭 VsCode 后再运行脚本。
 
-#### ⚠️Warning
+### ⚠️Warning
 
 运行脚本后再次运行 VsCode 基本上看不出什么不同，只是当前工作路径下所打开的文件需要重新手动点击打开。
 

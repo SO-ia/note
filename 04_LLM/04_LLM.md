@@ -4,7 +4,7 @@
 
 参考代码：[wyf3/llm_related: 复现大模型相关算法及一些学习记录](https://github.com/wyf3/llm_related)
 
-参考视频：Bilibili — 偷心九月 333
+参考视频：Bilibili — 偷心九月333
 
 1. 2025.07.13
 2. 
@@ -24,6 +24,8 @@
 ### awq
 
 [大模型(LLM)量化(Quantization)原理学习 - 知乎](https://zhuanlan.zhihu.com/p/29140505773)
+
+
 
 
 
@@ -148,6 +150,14 @@ $env:HF_ENDPOINT = "https://hf-mirror.com"
 
 
 
+```python
+huggingface-cli download xlm-roberta-base --local-dir /root/autodl-tmp/data/models/xlm-roberta-base
+
+huggingface-cli download Qwen/Qwen2.5-1.5B-Instruct --local-dir /root/qwen2.5-1.5b-instruct
+```
+
+
+
 ### 模型
 
 #### 加载 embedding 模型
@@ -167,10 +177,6 @@ No sentence-transformers model found with name ./models/bert-base-chinese. Creat
 
 > 下次可参考
 > https://blog.csdn.net/m0_46696145/article/details/145936578
-
-
-
-
 
 
 

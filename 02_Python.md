@@ -26,7 +26,34 @@ https://blog.csdn.net/weixin_44670563/article/details/108399019?fromshare = blog
 
 
 
-### 2
+### 2 .astype()
+
+#### error
+
+```powershell
+AttributeError: 'Tensor' object has no attribute 'astype'
+```
+
+##### source code
+
+```python
+query: str = ''
+encoder = SentenceTransformer(model_name)
+# 改行报错
+query_embedding = encoder.encode(query).astype('float32')
+```
+
+#### solution
+
+```
+query_embedding = encoder.encode(query).numpy().astype('float32')
+```
+
+#### reference
+
+> https://zhuanlan.zhihu.com/p/583506554
+
+
 
 
 
@@ -374,7 +401,164 @@ ERROR: Failed building wheel for llama-cpp-python
 
 
 
+### 10 faiss_index.add()
 
+#### error
+
+```python
+Argument missing for parameter "x"
+```
+
+##### source code
+
+```python
+# 将numpy数组转换为FAISS需要的格式
+vec = self.doc_embeddings.astype('float32')
+
+# 这里需传入一个向量的维度，从而创建一个空的索引
+self.faiss_index = faiss.IndexFlatIP(vec.shape[1])
+
+# 归一化
+faiss.normalize_L2(vec)
+
+# 将向量数据加入索引
+# 本行语句报错: Argument missing for parameter "x"
+self.faiss_index.add(vec)
+```
+
+##### faiss 调用的方法
+
+```python
+def add(self, n, x):
+        r"""
+         Add n vectors of dimension d to the index.
+
+        Vectors are implicitly assigned labels ntotal .. ntotal + n - 1
+        This function slices the input vectors in chunks smaller than
+        blocksize_add and calls add_core.
+        :type n: int
+        :param n:      number of vectors
+        :type x: float
+        :param x:      input matrix, size n * d
+        """
+        return _swigfaiss.Index_add(self, n, x)
+```
+
+
+
+#### solution
+
+传入向量数量的参数
+
+```
+self.faiss_index.add(vec.shape[0], vec)
+```
+
+
+
+
+
+
+
+### 11 pip
+
+#### 1 多余包
+
+##### warning
+
+总是会有报警信息出来，强迫症真受不了
+
+```python
+(base) root@autodl-%user%:~/LLaMA-Factory/data# pip list | grep llamafactory
+WARNING: Ignoring invalid distribution -orch (/root/miniconda3/lib/python3.10/site-packages)
+llamafactory                             0.9.4.dev0         /root/LLaMA-Factory
+WARNING: Ignoring invalid distribution -orch (/root/miniconda3/lib/python3.10/site-packages)
+WARNING: Ignoring invalid distribution -orch (/root/miniconda3/lib/python3.10/site-packages)
+WARNING: Ignoring invalid distribution -orch (/root/miniconda3/lib/python3.10/site-packages)
+```
+
+##### reason
+
+之前安装插件失败/中途退出，导致插件安装出现异常导致的
+
+##### solution
+
+找到警告信息中报错的目录，然后删掉~开头的文件夹
+
+查看未下载完成的文件夹
+
+```python
+(base) root@autodl-%user%:~/miniconda3/lib/python3.10/site-packages# ls -alh | grep .*~.*
+drwxr-xr-x 39 root root 4.0K Jun 12  2024 ~orch
+drwxr-xr-x  2 root root 4.0K Jun 12  2024 ~orch-2.1.2+cu118.dist-info
+drwxr-xr-x  8 root root 4.0K Jun 12  2024 ~unctorch
+drwxr-xr-x  3 root root  102 Jun 12  2024 ~vfuser
+```
+
+删除这些文件夹
+
+```
+(base) root@autodl-%user%:~/miniconda3/lib/python3.10/site-packages# ls -alh | grep .*~.*
+drwxr-xr-x 39 root root 4.0K Jun 12  2024 ~orch
+drwxr-xr-x  2 root root 4.0K Jun 12  2024 ~orch-2.1.2+cu118.dist-info
+drwxr-xr-x  8 root root 4.0K Jun 12  2024 ~unctorch
+drwxr-xr-x  3 root root  102 Jun 12  2024 ~vfuser
+(base) root@autodl-%user%:~/miniconda3/lib/python3.10/site-packages# rm -r ~orch ~orch-2.1.2+cu118.dist-info ~unctorch ~vfuser
+```
+
+再使用pip就不会报警了
+
+```python
+(base) root@autodl-%user%:~/LLaMA-Factory/data# pip list | grep llamafactory
+llamafactory                             0.9.4.dev0         /root/LLaMA-Factory
+```
+
+> https://blog.csdn.net/weixin_43848614/article/details/118426100?fromshare=blogdetail&sharetype=blogdetail&sharerId=118426100&sharerefer=PC&sharesource=qq_73921758&sharefrom=from_link
+>
+
+#### 2 命令解析错误
+
+```bash
+(base) root@autodl-%user%:~/LLaMA-Factory# pip install deepspeed<=0.16.9
+bash: =0.16.9: No such file or directory
+
+(base) root@autodl-%user%:~/LLaMA-Factory# pip install deepspeed>=0.10.0,<=0.16.9
+bash: =0.16.9: No such file or directory
+```
+
+##### soution
+
+1. 使用引号 (已试验)
+
+    ```bash
+    pip install "deepspeed<=0.16.9"
+    ```
+    
+2. 以下为未试验
+
+3. 检查 `pip` 版本
+
+    确保你的 `pip` 是最新版本。可以尝试更新 `pip`
+
+    ```bash
+    pip install --upgrade pip
+    ```
+
+4. 使用 `pip3` 替代 `pip`
+
+    在某些系统中，`pip` 和 `pip3` 可能指向不同的 Python 版本。可以尝试使用 `pip3`
+
+    ```bash
+    pip3 install deepspeed==0.16.9
+    ```
+
+
+
+
+
+### 12 模型训练
+
+#### 1 数据类型有误
 
 
 
@@ -387,6 +571,104 @@ ERROR: Failed building wheel for llama-cpp-python
 
 
 ## packages
+
+### sklearn
+
+#### 1
+
+##### error
+
+```powershell
+Input In [4], in load_dataset(dataset_name)
+     31 secondary_to_primary_idx = {}
+     32 for secondary in secondary_to_primary:
+     33     # 获取二级标签的数字编码
+---> 34     sec_idx = le_secondary.transform([secondary])[0]
+     35     # 获取对应一级标签的数字编码
+     36     pri_str = secondary_to_primary[secondary]
+
+File ~/miniconda3/lib/python3.8/site-packages/sklearn/preprocessing/_label.py:138, in LabelEncoder.transform(self, y)
+    135 if _num_samples(y) == 0:
+    136     return np.array([])
+--> 138 return _encode(y, uniques=self.classes_)
+
+File ~/miniconda3/lib/python3.8/site-packages/sklearn/utils/_encode.py:226, in _encode(values, uniques, check_unknown)
+    224         return _map_to_integer(values, uniques)
+    225     except KeyError as e:
+--> 226         raise ValueError(f"y contains previously unseen labels: {str(e)}")
+    227 else:
+    228     if check_unknown:
+
+ValueError: y contains previously unseen labels: '赠与合同'
+```
+
+##### reason
+
+在使用 `le_secondary.transform([secondary])` 时，`secondary` 里有一些标签在 `le_secondary` 还没见过：
+
+- `le_secondary` 是基于加载的数据中 **实际出现过** 的二级标签训练得到的；
+- 但 `secondary_to_primary` 包括了一些虽然定义了映射，但 **没有在数据里出现** 的标签；
+- 尝试把这些“未见标签”进行 `transform` 时，就报错了 
+
+##### solution
+
+1. 只处理真正出现过的标签 (未采用)
+
+   在 `load_dataset` 方法中，仅对那些在训练数据中见过的二级标签建立映射。也就是说，当构造 `secondary_to_primary_idx` 时先 **检查标签是否在 le_secondary.classes_ 中**
+
+   ```python
+   secondary_to_primary_idx = {}
+   known_secondaries = set(le_secondary.classes_)
+   for secondary, primary in secondary_to_primary.items():
+       if secondary in known_secondaries:
+           sec_idx = le_secondary.transform([secondary])[0]
+           pri_idx = le_primary.transform([primary])[0]
+           secondary_to_primary_idx[sec_idx] = pri_idx
+   
+   ```
+
+2. **为未见标签设置默认映射 (本次解决)**
+
+   希望所有标签都有映射（即使没见过的也映射到一个默认值），可以采用以下[方案](https://stackoverflow.com/questions/42196589/any-way-to-get-mappings-of-a-label-encoder-in-python-pandas/42889240?utm_source=chatgpt.com)：
+
+   - 在 `le_secondary.classes_` 增加一个 `'unknown'` 类
+   - 把 `le_secondary` 拟合过的 `classes_` 属性扩展
+   - 对不存在的 `secondary` 用 `'unknown'` 替代，再 `transform`
+
+   ```python
+   # 在已有类后新增 'unknown'
+   le_secondary.classes_ = np.append(le_secondary.classes_, 'unknown')
+   
+   secondary_to_primary_idx = {}
+   for secondary, primary in secondary_to_primary.items():
+       sec = secondary if secondary in le_secondary.classes_ else 'unknown'
+       sec_idx = le_secondary.transform([sec])[0]
+       pri_idx = le_primary.transform([primary])[0]
+       secondary_to_primary_idx[sec_idx] = pri_idx
+   ```
+
+   修改后的 load_dataset 部分如下：
+
+   ```python
+   # 创建二级标签到一级标签数字编码的映射
+   secondary_to_primary_idx = {}
+   for secondary in secondary_to_primary:
+       sec = secondary if secondary in le_secondary.classes_ else 'unknown'
+       # 获取二级标签的数字编码
+       sec_idx = le_secondary.transform([sec])[0]
+       # 获取对应一级标签的数字编码
+       # pri_str = secondary_to_primary[secondary]
+       pri_idx = le_primary.transform([primary])[0]
+       secondary_to_primary_idx[sec_idx] = pri_idx
+   ```
+
+   
+
+
+
+
+
+
 
 ### Jupyter
 
@@ -416,6 +698,16 @@ Cannot find remote credentials for target config com.jetbrains.plugins.remotesdk
 
 
 
+
+
+
+
+
+#### 代码提示补全
+
+
+
+> https://blog.csdn.net/qq_43686057/article/details/123857182?fromshare=blogdetail&sharetype=blogdetail&sharerId=123857182&sharerefer=PC&sharesource=qq_73921758&sharefrom=from_link
 
 
 

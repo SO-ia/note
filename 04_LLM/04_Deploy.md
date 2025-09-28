@@ -34,6 +34,13 @@ export XINFERENCE_HOME=/root/autodl-tmp
 export XINFERENCE_ENDPOINT=http://0.0.0.0:7863
 # 通过环境变量临时变更模型下载路径
 export XINFERENCE_CACHE_DIR=/root/autodl-tmp/models
+
+
+# win
+# cmd
+set HF_ENDPOINT=https://hf-mirror.com
+# ps
+$env:HF_ENDPOINT = "https://hf-mirror.com"
 ```
 
 > https://cloud.tencent.com/developer/article/2445726
@@ -362,6 +369,7 @@ pip install "xinference[vllm]"
 
 
 
+
 ##### 2. 注册
 
 ```bash
@@ -606,6 +614,88 @@ model_uid=TongGu-0, model_name=TongGu, model_size_in_billions=7, model_format=py
 
 
 
+
+
+## LLaMA-Factory
+
+官方文档 https://llamafactory.readthedocs.io/zh-cn/latest/
+
+### installation
+
+1. 从源码安装到指定位置 (将所有文件存放在该路径下)
+
+   ```powershell
+   git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git /root/LLaMA-Factory
+   ```
+
+   `--depth 1`: 浅克隆（仅克隆最近的提交）
+
+2. 安装其他包
+
+   ```powershell
+   cd LLaMA-Factory
+   pip install -e ".[torch,metrics]" --no-build-isolation
+   ```
+
+3. 查看安装版本
+
+   由于当前为无卡模式，因此会有报警信息
+
+   ```powershell
+   (base) root@%username%:~/LLaMA-Factory/data# llamafactory-cli version
+   INFO 07-19 11:00:58 [__init__.py:247] No platform detected, vLLM is running on UnspecifiedPlatform
+   ----------------------------------------------------------
+   | Welcome to LLaMA Factory, version 0.9.4.dev0           |
+   |                                                        |
+   | Project page: https://github.com/hiyouga/LLaMA-Factory |
+   ----------------------------------------------------------
+   ```
+
+   ```
+   (base) root@%username%:~/LLaMA-Factory/data# pip list | grep llamafactory
+   llamafactory                             0.9.4.dev0         /root/LLaMA-Factory
+   ```
+   
+
+
+
+### train
+
+#### error
+
+##### 1 缺少 deepspeed
+
+详细内容见`./log/04_llama_Factory_log.md --- 4`
+
+```python
+ImportError: DeepSpeed is not available => install it using `pip3 install deepspeed`
+```
+
+###### solution
+
+att. 需使用如下命令安装否则出现版本不匹配错误
+
+```python
+pip install "deepspeed<=0.16.9"
+```
+
+版本不匹配 (详细内容见`./log/04_llama_Factory_log.md --- 5`)
+
+```bash
+[rank0]: ImportError: deepspeed>=0.10.0,<=0.16.9 is required for a normal functioning of this module, but found deepspeed==0.17.2.
+[rank0]: To fix: run `pip install deepspeed>=0.10.0,<=0.16.9`.
+```
+
+
+
+### References
+
+> [使用LLaMA Factory微调LlaMA 3模型](https://help.aliyun.com/zh/pai/use-cases/fine-tune-a-llama-3-model-with-llama-factory)
+
+
+
+
+
 ## Ollama
 
 ### Ollama 本地部署 Qwen
@@ -734,7 +824,7 @@ ollama run qwen2.5:14b
 ```bash
 sudo mkdir -p /root/autodl-tmp/data/ollama/models
 sudo chown -R root:root /root/autodl-tmp/data/ollama/models
-sudo chmod -R 775 /root/autodl-tmp/data/ollama/models
+sudo chmod -R 777 /root/autodl-tmp/data/ollama/models
 ```
 
 

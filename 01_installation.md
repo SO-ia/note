@@ -1,543 +1,320 @@
-## VSCode
-
-### extensions
-
-#### 路径自动补全
-
-##### Path Intellisense
-
-1. 打开扩展商店(Ctrl + Shift + X 或 左侧插件按钮)，搜索 Path Intellisense，点击 install 安装
-
-2. 配置插件
-
-   ```json
-   {
-       "path-intellisense.mappings": {
-               "/": "/", // ”/“ 系统根目录
-               "~": "D:/A_Project", // ”~“ home目录
-               ".": "${workspaceFolder}" // ”.“ 设置 VScode 的 workspaceFolder，作为插件的 workspaceFolder
-               // "abs_path": "/home/user/path/to/directory" // Alias for absolute path to directory.  
-       }
-   }
-   ```
-
-
-
-
-#### Python
-
-##### 括号自动补全
-
-- Name: Pylance
-  Id: ms-python.vscode-pylance
-  Description: A performant, feature-rich language server for Python in VS Code
-  Version: 2024.2.4
-  Publisher: Microsoft
-  VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName = ms-python.vscode-pylance
-
-- 设置 -> 扩展 -> Pylance -> 将 python.analysis.completeFunctionParens 下方的选项打勾
-  ***或***
-  直接在 settings.json 中添加 `"python.analysis.completeFunctionParens": true`
-
-##### Python
-
-- Name: Python
-  Id: ms-python.python
-  Description: Python language support with extension access points for IntelliSense (Pylance), Debugging (Python Debugger), linting, formatting, refactoring, unit tests, and more.
-  Version: 2023.14.0
-  Publisher: Microsoft
-  VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName = ms-python.python
-
-##### Debugger
-
-- Name: Python Debugger
-  Id: ms-python.debugpy
-  Description: Python Debugger extension using debugpy.
-  Version: 2024.0.0
-  Publisher: Microsoft
-  VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName = ms-python.debugpy
-
-##### Env manager
-
-- Name: Python Environment Manager (deprecated)
-  Id: donjayamanne.python-environment-manager
-  Description: View and manage Python environments & packages.
-  Version: 1.0.4
-  Publisher: Don Jayamanne
-  VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName = donjayamanne.python-environment-manager
-
-##### python 热门包推荐
-
-- Name: Python Extension Pack
-  Id: donjayamanne.python-extension-pack
-  Description: Popular Visual Studio Code extensions for Python
-  Version: 1.7.0
-  Publisher: Don Jayamanne
-  VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName = donjayamanne.python-extension-pack
-
-##### Python 语言自动格式化
-
-https://blog.csdn.net/breaksoftware/article/details/128804572
-
-
-
-#### Remote SSH
-
-```
-ssh -p xxxxx root@rexxxxxd.com
-```
-
-
-
-##### error
-
-###### 1
-
-```powershell
-[09:36:50.162] Running script with connection command: "C:\Windows\System32\OpenSSH\ssh.exe" -T -D 60283 "regixxx.com" bash
-[09:36:50.166] Terminal shell path: C:\WINDOWS\System32\cmd.exe
-[09:36:50.382] > 9001h 1004h
-[09:36:50.382] Got some output, clearing connection timeout
-[09:36:50.552] > kex_exchange_identification: read: Connection reset
-> ]0;C:\WINDOWS\System32\cmd.exe 
-[09:36:50.570] > Connection reset by 120.xx.xxx.xxx port xxxxx
-> 过程试图写入的管道不存在。
-[09:36:52.567] "install" terminal command done
-[09:36:52.568] Install terminal quit with output: 过程试图写入的管道不存在。
-[09:36:52.568] Received install output: 过程试图写入的管道不存在。
-[09:36:52.569] Failed to parse remote port from server output
-[09:36:52.571] Resolver error: Error: 
-	at m.Create (c:\Users\%username%\.vscode\extensions\ms-vscode-remote.remote-ssh-0.102.0\out\extension.js:1:584145)
-	at t.handleInstallOutput (c:\Users\%username%\.vscode\extensions\ms-vscode-remote.remote-ssh-0.102.0\out\extension.js:1:582705)
-	at t.tryInstall (c:\Users\%username%\.vscode\extensions\ms-vscode-remote.remote-ssh-0.102.0\out\extension.js:1:681881)
-	at async c:\Users\%username%\.vscode\extensions\ms-vscode-remote.remote-ssh-0.102.0\out\extension.js:1:644110
-	at async t.withShowDetailsEvent (c:\Users\%username%\.vscode\extensions\ms-vscode-remote.remote-ssh-0.102.0\out\extension.js:1:647428)
-	at async t.resolve (c:\Users\%username%\.vscode\extensions\ms-vscode-remote.remote-ssh-0.102.0\out\extension.js:1:645160)
-	at async c:\Users\%username%\.vscode\extensions\ms-vscode-remote.remote-ssh-0.102.0\out\extension.js:1:720916
-[09:36:52.582]
-```
-
-solution
-
-- remote.SSH: Config File
-
-  填入以下绝对路径
-
-  ```
-  C:\Users\%username%\.ssh\config
-  ```
-
-  config 文件内容如下
-
-  ```powershell
-  Host regxxx.com
-    HostName regixxx.com
-    Port xxxx
-    User root
-  ```
-
-  <font color=red> not work </font>
-
-- 可能是公司内网防火墙设置
-
-
-
-
-
-
-
-#### Jupyter
-
-##### Cell命令模式
-
-目前支持的Jupyter Notebook快捷:
-
-| 快捷键      | 备注                                                 |
-| ----------- | ---------------------------------------------------- |
-| Enter       | 转入编辑模式                                         |
-| Shift-Enter | 运行本单元，选中或插入（最后一个Cell的时候）下个单元 |
-| Ctrl-Enter  | 运行本单元                                           |
-| Alt-Enter   | 运行本单元，在其下插入新单元                         |
-| y           | 单元转入代码状态                                     |
-| m           | 单元转入markdown状态 （目前尚不支持R 原生状态）      |
-| up          | 选中上方单元                                         |
-| k           | 选中上方单元                                         |
-| down        | 选中下方单元                                         |
-| j           | 选中下方单元                                         |
-| a           | 在上方插入新单元                                     |
-| b           | 在下方插入新单元                                     |
-| dd          | 删除选中的单元                                       |
-| l           | 转换行号                                             |
-| Shift-Space | 向上滚动                                             |
-| Space       | 向下滚动                                             |
-
-##### Cell编辑模式
-
-快捷键(只描述与编辑相关的那些快捷键):
-
-| 快捷键                    | 备注                                                         |
-| ------------------------- | ------------------------------------------------------------ |
-| Ctrl + X                  | 剪切/剪切行（空选定）                                        |
-| Ctrl + C                  | 复制/复制行（空选定）                                        |
-| Ctrl + Delete / Backspace | 删除右边、左边的字                                           |
-| Alt + ↑ / ↓               | 向上/向下移动行                                              |
-| Shift + Alt + ↓ / ↑       | 向上/向下复制行                                              |
-| Ctrl + Shift + K          | 删除行                                                       |
-| Ctrl + Shift + \          | 跳到匹配的括号                                               |
-| Ctrl + ] / [              | 缩进/突出行                                                  |
-| Ctrl + ← / →              | 光标到字首/字尾                                              |
-| Ctrl + /                  | 切换行注释                                                   |
-| Shift + Alt + A           | 切换块注释                                                   |
-| Ctrl + H                  | 查找/替换Vscode的查找快捷键 Ctrl + F 目前在Cell里不能用，但是替换快捷键可以使用，因此可以替代原本的查找功能 |
-
-
-
-#### HTML
-
-##### Live Server
-
-页面实时预览插件
-
-##### 头部注释
-
-```json
-{
-    // 头部注释
-    "fileheader.customMade": {
-        // 头部注释默认字段
-        "Author": "your name",
-        "Date": "Do not edit", // 设置后默认设置文件生成时间
-        "LastEditTime": "Do not edit", // 设置后，保存文件更改默认更新最后编辑时间
-        "LastEditors": "your name", // 设置后，保存文件更改默认更新最后编辑人
-        "Description": "",
-        "FilePath": "Do not edit", // 设置后，默认生成文件相对于项目的路径
-        "custom_string_obkoro1": "可以输入预定的版权声明、个性签名、空行等"
-    },
-    // 函数注释
-    "fileheader.cursorMode": {
-    // 默认字段
-    "description":"",
-    "param":"",
-    "return":""
-    },
-    // 插件配置项
-    "fileheader.configObj": {
-    
-        "autoAdd": false, // 检测文件没有头部注释，自动添加文件头部注释
-        "autoAddLine": 100, // 文件超过多少行数 不再自动添加头部注释
-        "autoAlready": true, // 只添加插件支持的语言以及用户通过`language`选项自定义的注释
-        "supportAutoLanguage": [], // 设置之后，在数组内的文件才支持自动添加
-    // 自动添加头部注释黑名单
-    "prohibitAutoAdd": [
-        "json"
-        ],
-    "prohibitItemAutoAdd": [ "项目的全称禁止项目自动添加头部注释, 使用快捷键自行添加" ],
-    "folderBlacklist": [ "node_modules" ], // 文件夹或文件名禁止自动添加头部注释
-    "wideSame": false, // 头部注释等宽设置
-    "wideNum": 13,  // 头部注释字段长度 默认为13
-        "functionWideNum": 0, // 函数注释等宽设置 设为0 即为关闭
-    // 头部注释第几行插入
-        "headInsertLine": {
-        "php": 2 // php文件 插入到第二行
-        },
-        "beforeAnnotation": {}, // 头部注释之前插入内容
-        "afterAnnotation": {}, // 头部注释之后插入内容
-        "specialOptions": {}, // 特殊字段自定义
-        "switch": {
-        "newlineAddAnnotation": true // 默认遇到换行符(\r\n \n \r)添加注释符号
-        },
-        "moveCursor": true, // 自动移动光标到Description所在行
-        "dateFormat": "YYYY-MM-DD HH:mm:ss",
-        "atSymbol": ["@", "@"], // 更改所有文件的自定义注释中的@符号
-        "atSymbolObj": {}, //  更改单独语言/文件的@
-        "colon": [": ", ": "], // 更改所有文件的注释冒号
-        "colonObj": {}, //  更改单独语言/文件的冒号
-        "filePathColon": "路径分隔符替换", // 默认值： mac: / window是: \
-        "showErrorMessage": false, // 是否显示插件错误通知 用于debugger
-        "writeLog": false, // 错误日志生成
-        "CheckFileChange": false, // 单个文件保存时进行diff检查
-        "createHeader": false, // 新建文件自动添加头部注释
-        "useWorker": false, // 是否使用工作区设置
-        "designAddHead": true, // 添加注释图案时添加头部注释
-        "headDesignName": "random", // 图案注释使用哪个图案 
-        /* 
-            'random', // 随机
-            'buddhalImg', // 佛祖
-            'buddhalImgSay', // 佛祖+佛曰
-            'buddhalSay', // 佛曰
-            'totemDragon', // 龙图腾
-            'belle', // 美女
-            'coderSong', // 程序员之歌
-            'loitumaGirl', // 甩葱少女
-            'keyboardAll', // 全键盘
-            'keyboardSmall', // 小键盘
-            'totemWestDragon', // 喷火龙
-            'jesus', // 耶稣
-            'dog', // 狗
-            'grassHorse', // 草泥马
-            'grassHorse2', // 草泥马2
-            'totemBat', // 蝙蝠
-        */
-        "headDesign": true, // 是否使用图案注释替换头部注释
-        // 自定义配置是否在函数内生成注释 不同文件类型和语言类型
-        "cursorModeInternalAll": {}, // 默认为false 在函数外生成函数注释
-        "openFunctionParamsCheck": true, // 开启关闭自动提取添加函数参数
-        "functionParamsShape": ["{", "}"], // 函数参数外形自定义 
-        // "functionParamsShape": "no type" 函数参数不需要类型
-        "functionBlankSpaceAll": {}, // 函数注释空格缩进 默认为空对象 默认值为0 不缩进
-        "functionTypeSymbol": "*", // 参数没有类型时的默认值
-        "typeParamOrder": "type param", // 参数类型 和 参数的位置自定义
-        // 自定义语言注释，自定义取消 head、end 部分
-        // 不设置自定义配置language无效 默认都有head、end
-        "customHasHeadEnd": {}, // "cancel head and function" | "cancel head" | "cancel function" 
-        "throttleTime": 60000, // 对同一个文件 需要过1分钟再次修改文件并保存才会更新注释
-        // 自定义语言注释符号，覆盖插件的注释格式
-        "language": {
-            // js后缀文件
-            "js": {
-                "head": "/$$",
-                "middle": " $ @",
-                "end": " $/",
-                // 函数自定义注释符号：如果有此配置 会默认使用
-                "functionSymbol": {
-                "head": "/******* ", // 统一增加几个*号
-                "middle": " * @",
-                "end": " */"
-                },
-                "functionParams": "typescript" // 函数注释使用ts语言的解析逻辑
-            },
-        // 一次匹配多种文件后缀文件 不用重复设置
-        "h/hpp/cpp": {
-            "head": "/*** ", // 统一增加几个*号
-            "middle": " * @",
-            "end": " */"
-            },
-            // 针对有特殊要求的文件如：test.blade.php
-            "blade.php":{
-            "head": "<!--",
-            "middle": " * @",
-            "end": "-->",
-            }
-        },
-    // 默认注释  没有匹配到注释符号的时候使用。
-    "annotationStr": { 
-        "head": "/*",
-        "middle": " * @",
-        "end": " */",
-        "use": false
-        },
-    },
-    "files.associations": {
-        "adc.h": "c"
-    }
-        
-}
-```
-
-
-
-##### references
-
-> [VSCode 插件：KoroFileHeader 深度指南：自动生成注释与代码片段定制-CSDN 博客](https://blog.csdn.net/qq_41972807/article/details/123054532?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-123054532-blog-130366752.235^v43^pc_blog_bottom_relevance_base9&spm=1001.2101.3001.4242.1&utm_relevant_index=2)
->
-> [VS Code——koroFileHeader 插件：生成头部注释、函数注释-CSDN 博客](https://blog.csdn.net/qq_44170108/article/details/130366752)
->
-> 
-
-
-
-
-
-#### Vue
-
-https://marketplace.visualstudio.com/_apis/public/gallery/publishers/Vue/vsextensions/volar/2.2.10/vspackage
-
-##### error
-
-1.80.8 版本 vscode 不支持该版本插件，而且无法选择低版本下载
-
-##### solution
-
-1. 下载 vsix 文件
-
-2. 修改后缀名为 zip
-
-3. 解压
-
-4. 修改 \extension\package.json 中的如下内容
-
-   ```json
-   	"engines": {
-   		"vscode": "^1.88.0"
-   	},
-   ```
-
-   为报错版本号
-
-   ```json
-   	"engines": {
-   		"vscode": "^1.80.0"
-   	},
-   ```
-
-   
-
-> 解决方案: 将插件文件的 .vsix 后缀更改为 .zip 并解压,在 extensions 文件夹里找到 package.json ,打开进行更改, "engines": { "**vscode**": "^1.54.1" }, 将**vscode**版本号更改为报错的版本号.保存,再将 .zip 改为 .vsix ,继续第二步操作
-
-
-
-### settings
-
-#### 插件安装位置
-
-https://blog.csdn.net/weixin_43751329/article/details/122506815
-
-
-
-### clear cache
-
-route: **C:\Users\%username%\AppData\Local\Microsoft\vscode-cpptools**
-
-reference: [link](https://www.52pojie.cn/forum.php?mod=viewthread&tid=1959079)
-
-> 非常感谢该博客的整理，在此引用并在下方粘贴全文
-
-VsCode 是一款 **轻量级** 代码编辑器
-
-可用一段就会很快发现，“轻量级”的 VsCode 并不轻量
-
-不统计不知道，一统计吓一跳，使用了一段时间后，VsCode 占用了我 C 盘 10G+的空间！
-
-好家伙，于是我决定治理一下 VsCode，让 VsCode 变得真正的轻量级。
-
-#### VsCode 的空间占用分析
-
-VsCode 所占用的空间，主要包括四大部分（下面是我写此博客时统计的结果）：
-
-1. `程序的安装目录`：大约会占用 350M
-2. `%userprofile%\.vscode`：可达 800M。主要为：各个拓展。VsCode 卸载拓展似乎不会删除硬盘上的文件，因此这个里面很大，并且混有很多不用的
-3. `%userprofile%\AppData\Local\Microsoft\vscode-cpptools\ipch`：用一段时间能达到 4G 与 C(++)语言有关，关闭程序后可以直接删。不使用 VsCode 编辑 C/C++的用户可能无此痛苦
-4. `%userprofile%\AppData\Roaming\Code`：2G+ 存放用户数据、配置等。 （可以通过启动时添加--user-data-dir NewDir 来使其他目录作为配置）
-
-可以定期删除的地方，有 `3. ipch`（可完全删除） 和 `4. Romaing`（不可完全删除）
-
-##### 4. Romaing 中，到底哪些可以定期删除
-
-对 `%userprofile%\AppData\Roaming\Code` 中的文件进行更进一步地分析，我得到了如下结论：
-
-```css
-%userprofile%\AppData\Roaming\Code\CachedExtensionVSIXs   用一段时间可以达到500M   可以直接删
-%userprofile%\AppData\Roaming\Code\Cache       很快几十M
-%userprofile%\AppData\Roaming\Code\CachedData  很快几十M
-%userprofile%\AppData\Roaming\Code\CachedExtensions  安装新插件时，似乎默认不会自动删除，安装插件一多能达到800M
-%userprofile%\AppData\Roaming\Code\CachedExtensionVSIXs 反正也是与插件有关的，也能达到几百M
-%userprofile%\AppData\Roaming\Code\Code Cache    十几M
-%userprofile%\AppData\Roaming\Code\Crashpad      十几M  用来存放崩溃信息
-%userprofile%\AppData\Roaming\Code\logs          几十M  这个可以直接删，用来存放日志记录
-%userprofile%\AppData\Roaming\Code\Service Worker 1G    
-    %userprofile%\AppData\Roaming\Code\Service Worker\CacheStorage   1G  主要位于这里
-    %userprofile%\AppData\Roaming\Code\Service Worker\ScriptCache    10M
-%userprofile%\AppData\Roaming\Code\User          600M
-    %userprofile%\AppData\Roaming\Code\User\workspaceStorage  500M  每打开一个工作目录就会在这个目录下生成一个文件夹
-    %userprofile%\AppData\Roaming\Code\User\History           100M
-            每Ctrl+S(仅限有修改的成功的重新保存)一次就会生成一个副本。
-            这个不是按git的思路只存放更改，而是整个文件全部Copy一份。
-            一个100多k的源码保存十次就是1M，对于习惯随手Ctrl+S的用户会占用较大的空间
-            但是，删除之后将会影响历史版本的还原。
-            其中，文件名采用了代码混淆技术，每个文件会生成一个文件夹，真正的文件名、各个文件对应文件保存时间都在每个文件夹下的entries.json中
-    %userprofile%\AppData\Roaming\Code\User\snippets    这个不能删，并且重装还得记得备份（如果没有自动还原的话）这个是用户自定义的代码片段
-```
-
-#### 定时删除目录
-
-1. `%userprofile%\AppData\Local\Microsoft\vscode-cpptools\ipch`
-2. `%userprofile%\AppData\Roaming\Code\CachedExtensionVSIXs`
-3. `%userprofile%\AppData\Roaming\Code\Cache`
-4. `%userprofile%\AppData\Roaming\Code\CachedData`
-5. `%userprofile%\AppData\Roaming\Code\CachedExtensions`
-6. `%userprofile%\AppData\Roaming\Code\CachedExtensionVSIXs`
-7. `%userprofile%\AppData\Roaming\Code\Code Cache`
-8. `%userprofile%\AppData\Roaming\Code\Crashpad`
-9. `%userprofile%\AppData\Roaming\Code\logs`
-10. `%userprofile%\AppData\Roaming\Code\Service Worker\CacheStorage`
-11. `%userprofile%\AppData\Roaming\Code\Service Worker\ScriptCache`
-12. `%userprofile%\AppData\Roaming\Code\User\workspaceStorage`
-13. `%userprofile%\AppData\Roaming\Code\User\History`
-
-这么多文件夹总不可能手动地一个一个地删除，因此我写了一个脚本：
-
-```bash
- 复制代码 隐藏代码@rem example:
-@REM del "%userprofile%/AppData/Local/Microsoft/vscode-cpptools/ipch/" /s /q /f
-@REM rd "%userprofile%/AppData/Local/Microsoft/vscode-cpptools/ipch/" /s /q
-@REM md "%userprofile%/AppData/Local/Microsoft/vscode-cpptools/ipch/"
-
-@echo off
-
-call:EmptyOneDir "%userprofile%\AppData\Local\Microsoft\vscode-cpptools\ipch"
-call:EmptyOneDir "%userprofile%\AppData\Roaming\Code\CachedExtensionVSIXs"
-call:EmptyOneDir "%userprofile%\AppData\Roaming\Code\Cache"
-call:EmptyOneDir "%userprofile%\AppData\Roaming\Code\CachedData"
-call:EmptyOneDir "%userprofile%\AppData\Roaming\Code\CachedExtensions"
-call:EmptyOneDir "%userprofile%\AppData\Roaming\Code\CachedExtensionVSIXs"
-call:EmptyOneDir "%userprofile%\AppData\Roaming\Code\Code Cache"
-call:EmptyOneDir "%userprofile%\AppData\Roaming\Code\Crashpad"
-call:EmptyOneDir "%userprofile%\AppData\Roaming\Code\logs"
-call:EmptyOneDir "%userprofile%\AppData\Roaming\Code\Service Worker\CacheStorage"
-call:EmptyOneDir "%userprofile%\AppData\Roaming\Code\Service Worker\ScriptCache"
-call:EmptyOneDir "%userprofile%\AppData\Roaming\Code\User\workspaceStorage"
-call:EmptyOneDir "%userprofile%\AppData\Roaming\Code\User\History"
-
-goto end
-
-:EmptyOneDir  rem same as Let empty [path] /q
-    echo empty %1
-    echo del %1 /s /q /f
-    del %1 /s /q /f
-    echo rd %1 /s /q
-    rd %1 /s /q
-    echo md %1
-    md %1
-:end
-```
-
-**只需要将这个脚本另存为 CleanVsCode.bat，并定期双击运行一次，就能定期释放大量空间**
-
-当然，释放的空间直接取决于你的 VsCode 所产生的缓存大小，间接取决于你的 VsCode 的使用次数。
-
-最好关闭 VsCode 后再运行脚本。
-
-#### ⚠️Warning
-
-运行脚本后再次运行 VsCode 基本上看不出什么不同，只是当前工作路径下所打开的文件需要重新手动点击打开。
-
-毕竟是一个能删除很多东西的脚本，因此请谨慎使用。
-
-我作为本篇博客的原创博主，只是为大家提供了一个便捷的方法，但是其可能造成的后果，博主并不承担责任。
-
-但是大家可以放心的是，我自己也在定期运行这个脚本。
-
-准备有空的时候将其加入 Windows 计划，以实现定期地自动释放空间。
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Linux
 
+### Bash
+
+#### 复制文件
+
+##### 1. cp
+
+```python
+cp -a /root/xxx /root/xxx
+
+mv /root/xxx /root/xxx
+
+cp -r /root/xxx /root/xxx
+
+cp /root/xxx /autodl-fs/xxx
+
+cp /root/xxx /autodl-fs/xxx
+```
+
+- `-a`：归档模式，相当于`-dR --preserve=all`，递归复制并保留文件属性。
+- `-f`：强制复制，如果目标文件已存在，不提示直接覆盖。
+- `-i`：交互模式，如果目标文件已存在，会提示是否覆盖。
+- `-p`：保留文件的权限、用户、组和时间戳。
+- `-r`：递归复制目录。
+- `-R`：与`-r`相同，递归复制目录。
+- `-u`：仅在源文件比目标文件新，或者目标文件不存在时，才进行复制。
+- `-v`：详细模式，显示复制过程中的详细信息。
+
+
+
+#### 删除
+
+##### 1. rm
+
+删除空文件夹
+
+```bash
+rmdir 文件夹名称
+```
+
+删除非空文件夹（递归删除）
+
+```python
+rm -r 文件夹名称
+```
+
+- `-r` 选项表示递归删除，会删除指定文件夹及其所有内容（包括子文件夹和文件）。
+
+强制删除文件夹（不提示确认）
+
+```bash
+rm -rf 文件夹名称
+```
+
+- `-f` 选项表示强制删除，不会提示确认，即使文件夹中有只读文件或需要管理员权限的文件也会被删除。
+
+交互模式删除文件夹（逐个确认）
+
+```bash
+rm -ri 文件夹名称
+```
+
+- `-i` 选项表示交互模式，删除每个文件和文件夹之前都会提示确认。
+
+
+
+#### mv
+
+```bash
+mv [选项] 源文件或文件夹 目标位置
+```
+
+- 移动文件或文件夹
+- 重命名文件或文件夹
+
+##### 参数
+
+- `-i`：交互模式，移动文件或文件夹前会提示用户确认，避免覆盖目标位置的文件。
+- `-f`：强制模式，不提示用户确认，直接覆盖目标位置的文件。
+- `-v`：详细模式，显示移动过程中的详细信息。
+
+##### 示例
+
+1. 将文件 `file.txt` 移动到 `/home/user/documents` 目录
+
+    ```bash
+    mv file.txt /home/user/documents/
+    ```
+    
+2. 文件夹 `folder1`，你想将其移动到 `/home/user/projects` 目录
+
+    ```bash
+    mv folder1 /home/user/projects/
+    ```
+
+3. 将文件 `oldname.txt` 重命名为 `newname.txt`
+
+    ```bash
+    mv oldname.txt newname.txt
+    ```
+
+4. 将文件夹 `oldfolder` 重命名为 `newfolder`
+
+    ```bash
+    mv oldfolder newfolder
+    ```
+
+5. 在移动文件时避免覆盖目标位置的文件，可以使用 `-i` 选项，进入交互模式
+
+    ```bash
+    mv -i file.txt /home/user/documents/
+    ```
+
+    如果目标位置已经存在 `file.txt`，系统会提示是否覆盖
+
+6. 在移动文件时直接覆盖目标位置的文件，可以使用 `-f` 选项
+
+    ```bash
+    mv -f file.txt /home/user/documents/
+    ```
+
+7. 查看移动过程中的详细信息，可以使用 `-v` 选项
+
+    ```bash
+    mv -v file.txt /home/user/documents/
+    ```
+
+    
+
+#### 压缩
+
+##### tar
+
+```bash
+tar -czvf archive_name.tar.gz file1 file2 directory1
+```
+
+- `-c`：创建一个新的归档文件
+- `-z`：通过 `gzip` 压缩归档文件 /解压
+- `-v`：在压缩过程中显示详细信息
+- `-f`：指定归档文件的名称
+- `-j`：使用 `bzip2` 压缩/解压
+- `-x`：解压归档文件
+
+###### 打包文件和目录
+
+```bash
+tar -cvf archive.tar file1 file2 directory1
+```
+
+###### 打包并压缩
+
+- 使用 `gzip`
+
+    ```bash
+    tar -czvf archive.tar.gz file1 file2 directory1
+    ```
+
+- 使用 `bzip2`
+
+    ```bash
+    tar -cjvf archive.tar.bz2 file1 file2 directory1
+    ```
+
+###### 解压归档文件
+
+```bash
+tar -xzvf archive.tar.gz
+```
+
+```bash
+tar -xjvf archive.tar.bz2
+```
+
+
+
+##### 使用历史
+
+###### 压缩包含指定文件名的文件
+
+```
+find . -name "example.txt" -print0 | xargs -0 tar -czvf example_files.tar.gz
+```
+
+- `find . -name "example.txt"`：从当前目录（`.`）开始递归查找所有名为`example.txt`的文件。
+
+- `|`：管道符号，将`find`命令的输出传递给下一个命令。
+
+- `xargs`：将`find`命令的输出作为参数传递给`tar`命令。
+
+- `tar -czvf example_files.tar.gz`：
+
+  - `-c`：创建一个新的归档文件。
+  - `-z`：使用gzip压缩归档文件。
+  - `-v`：显示详细信息。
+  - `-f`：指定归档文件的名称
+
+- `-print0`和`xargs -0`来处理文件名中可能包含的特殊字符（如空格）
+
+  ```bash
+  find . -name "example.txt" -print0 | xargs -0 tar -czvf example_files.tar.gz
+  ```
+
+- 如果需要排除某些目录，可以使用`-prune`选项
+
+  ```bash
+  find . -path "./exclude_dir" -prune -o -name "example.txt" -print0 | xargs -0 tar -czvf example_files.tar.gz
+  ```
+
+     
+  
+     
+  
+
+
+
+#### 查找
+
+##### find
+
+```bash
+find [搜索路径] [选项] [表达式] -exec 命令 {} \;
+```
 
 
 
 
 
+
+
+#### 清缓存
+
+```bash
+du -sh /root/miniconda3/pkgs/ && rm -rf /root/miniconda3/pkgs/*      # conda的历史包
+du -sh /root/.local/share/Trash && rm -rf /root/.local/share/Trash   # jupyterlab的回收站
+du -sh /tmp/         #查看/tmp占用的空间大小
+rm -rf /tmp/
+du -sh /root/.cache  #查看/root/.cache占用的空间大小
+rm -rf /root/.cache
+```
+
+
+
+#### 环境变量
+
+##### 查看所有
+
+```
+env
+```
+
+**result**
+
+```python
+(base) root@autodl-container-b9224992bb-33b2a2c7:~# env $FORCE_TORCHRUN   =/usr/bin/supervisord
+SHELL=/bin/bash
+NV_LIBCUBLAS_VERSION=11.11.3.6-1
+NVIDIA_VISIBLE_DEVICES=none
+NV_NVML_DEV_VERSION=11.8.86-1
+NV_CUDNN_PACKAGE_NAME=libcudnn8
+NV_LIBNCCL_DEV_PACKAGE=libnccl-dev=2.15.5-1+cuda11.8
+CONDA_EXE=/root/miniconda3/bin/conda
+_CE_M=
+...
+_=/usr/bin/env
+```
+
+##### 查看某个
+
+```
+echo $PATH
+```
+
+
+
+
+
+
+
+
+
+
+
+### Error
+
+#### 1 
+
+```
+sudo systemctl daemon-reload
+System has not been booted with systemd as init system (PID 1). Can't operate.
+Failed to connect to bus: Host is down
+```
+
+
+
+
+
+
+
+#### 2 无法安装 systemctl
+
+```
+apt-get install systemctl -y
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+Some packages could not be installed. This may mean that you have
+requested an impossible situation or if you are using the unstable
+distribution that some required packages have not yet been created
+or been moved out of Incoming.
+The following information may help to resolve the situation:
+
+The following packages have unmet dependencies:
+ libopencv-highgui4.2 : Depends: libgtk-3-0 (>= 3.0.0) but it is not going to be installed
+E: Error, pkgProblemResolver::Resolve generated breaks, this may be caused by held packages.
+```
 
 
 
@@ -553,7 +330,7 @@ goto end
 
    系统 -> 可选功能 -> 相关设置: 更多 Windows 功能
 
-   <img src=".\assets\1.png" alt="1" style="zoom:60%;" />
+   <img src="assets\1.png" alt="1" style="zoom:60%;" />
 
    需要重启电脑，重启后弹出 cmd 窗口显示如下：
 
@@ -654,6 +431,14 @@ goto end
 
 
 
+#### change location
+
+change default `Downloads, Music, Picture, ...`  to D drive
+
+> https://learn.microsoft.com/en-us/answers/questions/4186079/how-do-i-change-and-cleanup-my-default-download-lo
+
+
+
 ### 系统模块
 
 #### 蓝牙
@@ -679,11 +464,24 @@ goto end
 
 ### Typora
 
+#### Installation
+
+https://ioufev.lanzout.com/iA5J10945l8d
+
+https://www.cnblogs.com/ioufev/articles/15610121.html
+
+普通下载即可
+
+> activation code
+> https://www.lanzouh.com/i7j9H26waded
+> fkmj
+
 #### 格式插件 pandoc
 
 1. 其他格式转换 —— 需安装 `pandoc`
 
-2. GitHub 最新安装包网址 https://github.com/jgm/pandoc/releases/lastest
+2. GitHub 最新安装包网址
+   https://github.com/jgm/pandoc/releases/lastest
 
 3. Windows 选择 `pandoc-*-window.msi`
 
@@ -700,6 +498,17 @@ goto end
    This is free software; see the source for copying conditions. There is no warranty, not even for merchantability or fitness for a particular purpose.
    ```
 
+   ```powershell
+   C:\Users\%username%>pandoc --version
+   pandoc 3.7.0.2
+   Features: +server +lua
+   Scripting engine: Lua 5.4
+   User data directory: C:\Users\%username%\AppData\Roaming\pandoc
+   Copyright (C) 2006-2024 John MacFarlane. Web: https://pandoc.org
+   This is free software; see the source for copying conditions. There is no
+   warranty, not even for merchantability or fitness for a particular purpose.
+   ```
+   
    
 
 #### 字体格式 Font 
@@ -905,6 +714,164 @@ RemoteSigned
 
 
 
+#### 快捷键
+
+##### 1 编辑（Editing）
+
+- Ctrl + Space  基本的代码完成（类、方法、属性）
+- Ctrl + Alt + Space 快速导入任意类
+- Ctrl + Shift + Enter  语句完成
+- Ctrl + P  参数信息（在方法中调用参数）
+- Ctrl + Q  快速查看文档
+- F1  外部文档
+- Shift + F1  外部文档，进入web文档主页
+- Ctrl + Shift + Z --> Redo 重做
+- Ctrl + 鼠标  简介/进入代码定义
+- Ctrl + F1  显示错误描述或警告信息
+  Alt + Insert  自动生成代码
+  Ctrl + O  重新方法
+  Ctrl + Alt + T  选中
+  Ctrl + /  行注释/取消行注释
+  Ctrl + Shift + /  块注释
+  Ctrl + W  选中增加的代码块
+  Ctrl + Shift + W  回到之前状态
+  Ctrl + Shift + ]/[   选定代码块结束、开始
+  Alt + Enter  快速修正
+  Ctrl + Alt + L   代码格式化
+  Ctrl + Alt + O  优化导入
+  Ctrl + Alt + I  自动缩进
+  Tab / Shift + Tab 缩进、不缩进当前行
+  Ctrl+X/Shift+Delete  剪切当前行或选定的代码块到剪贴板
+  Ctrl+C/Ctrl+Insert  复制当前行或选定的代码块到剪贴板
+  Ctrl+V/Shift+Insert  从剪贴板粘贴
+  Ctrl + Shift + V  从最近的缓冲区粘贴
+  Ctrl + D 复制选定的区域或行
+  Ctrl + Y  删除选定的行
+  Ctrl + Shift + J 添加智能线
+  Ctrl + Enter  智能线切割
+  Shift + Enter  另起一行
+  Ctrl + Shift + U 在选定的区域或代码块间切换
+  Ctrl + Delete  删除到字符结束
+  Ctrl + Backspace  删除到字符开始
+  Ctrl + Numpad+/-  展开/折叠代码块（当前位置的：函数，注释等）
+  Ctrl + shift + Numpad+/-  展开/折叠所有代码块
+  Ctrl + F4  关闭运行的选项卡
+
+
+##### 2 查找/替换(Search/Replace)
+
+- F3  下一个
+- Shift + F3  前一个
+- Ctrl + R  替换
+- Ctrl + Shift + F 或者连续2次敲击shift  全局查找{可以在整个项目中查找某个字符串什么的，如查找某个函数名字符串看之前是怎么使用这个函数的}
+- Ctrl + Shift + R  全局替换
+- 
+
+##### 3 运行(Running)
+
+Alt + Shift + F10  运行模式配置
+Alt + Shift + F9  调试模式配置
+Shift + F10  运行
+Shift + F9  调试
+Ctrl + Shift + F10  运行编辑器配置
+Ctrl + Alt + R  运行manage.py任务
+
+##### 4 调试(Debugging)
+
+F8  跳过
+F7  进入
+Shift + F8  退出
+Alt + F9  运行游标
+Alt + F8  验证表达式
+Ctrl + Alt + F8  快速验证表达式
+F9  恢复程序
+Ctrl + F8  断点开关
+Ctrl + Shift + F8  查看断点
+
+##### 5 导航(Navigation)
+
+Ctrl + N  跳转到类
+Ctrl + Shift + N  跳转到符号
+Alt + Right/Left  跳转到下一个、前一个编辑的选项卡
+F12  回到先前的工具窗口
+Esc  从工具窗口回到编辑窗口
+Shift + Esc  隐藏运行的、最近运行的窗口
+Ctrl + Shift + F4  关闭主动运行的选项卡
+Ctrl + G  查看当前行号、字符号
+Ctrl + E  当前文件弹出，打开最近使用的文件列表
+Ctrl+Alt+Left/Right  后退、前进
+Ctrl+Shift+Backspace  导航到最近编辑区域
+Alt + F1  查找当前文件或标识
+Ctrl+B / Ctrl+Click  跳转到声明
+Ctrl + Alt + B  跳转到实现
+Ctrl + Shift + I查看快速定义
+Ctrl + Shift + B跳转到类型声明
+Ctrl + U跳转到父方法、父类
+Alt + Up/Down跳转到上一个、下一个方法
+Ctrl + ]/[跳转到代码块结束、开始
+Ctrl + F12弹出文件结构
+Ctrl + H类型层次结构
+Ctrl + Shift + H方法层次结构
+Ctrl + Alt + H调用层次结构
+F2 / Shift + F2下一条、前一条高亮的错误
+F4 / Ctrl + Enter编辑资源、查看资源
+Alt + Home显示导航条F11书签开关
+Ctrl + Shift + F11书签助记开关
+Ctrl + #[0-9]跳转到标识的书签
+Shift + F11显示书签
+
+##### 6 搜索相关(Usage Search)
+
+Alt + F7/Ctrl + F7文件中查询用法
+Ctrl + Shift + F7文件中用法高亮显示
+Ctrl + Alt + F7显示用法
+
+##### 7 重构(Refactoring)
+
+F5复制F6剪切
+Alt + Delete安全删除
+Shift + F6重命名
+Ctrl + F6更改签名
+Ctrl + Alt + N内联
+Ctrl + Alt + M提取方法
+Ctrl + Alt + V提取属性
+Ctrl + Alt + F提取字段
+Ctrl + Alt + C提取常量
+Ctrl + Alt + P提取参数
+
+##### 8 控制VCS/Local History
+
+Ctrl + K提交项目
+Ctrl + T更新项目
+Alt + Shift + C查看最近的变化
+Alt + BackQuote(’)VCS快速弹出
+
+##### 9 模版(Live Templates)
+
+Ctrl + Alt + J当前行使用模版
+Ctrl +Ｊ插入模版
+
+##### 10 基本(General)
+
+Alt + #[0-9]打开相应的工具窗口
+Ctrl + Alt + Y同步
+Ctrl + Shift + F12最大化编辑开关
+Alt + Shift + F添加到最喜欢
+Alt + Shift + I根据配置检查当前文件
+Ctrl + BackQuote(’)快速切换当前计划
+Ctrl + Alt + S　打开设置页
+Ctrl + Shift + A查找编辑器里所有的动作
+
+Ctrl + Tab在窗口间进行切换
+
+
+
+#### references
+
+> https://www.cnblogs.com/davidshen/p/10412644.html
+
+
+
 
 
 ### Google
@@ -1022,6 +989,81 @@ D:\A_APP\Google\Update.disabled
 
 
 
+### anaconda
+#### installation
+https://www.anaconda.com/download/success
+Distribution Installers -> Windows -> Python 3.13
+
+##### process
+
+
+
+#### environment variables
+
+```
+D:\A_APP\anaconda3
+D:\A_APP\anaconda3\Scripts
+D:\A_APP\anaconda3\Library\bin
+D:\A_APP\anaconda3\Library\mingw-w64\bin
+D:\A_APP\anaconda3\Library\usr\bin
+```
+
+
+
+#### error
+
+在 PowerShell 中，只想“**仅对当前用户**”把执行策略从 **Restricted** 改为 **RemoteSigned**（或任何其他策略），用下面这一条命令即可：
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
+
+- **`-Scope CurrentUser`** → 只改当前登录用户的策略，不会动系统级策略。  
+- **`-ExecutionPolicy RemoteSigned`** → 允许本地脚本运行，下载的脚本必须带签名；你也可以换成 `Bypass`、`Unrestricted` 等。
+
+##### 验证结果
+
+```powershell
+Get-ExecutionPolicy -Scope CurrentUser
+```
+
+应返回 `RemoteSigned`。
+
+> 如果之前是 `Restricted`，再执行 `Get-ExecutionPolicy`（不带参数）也会返回 `RemoteSigned`，因为当前用户策略已生效。
+
+```powershell
+(base) PS C:\Users\%username%> Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+
+Execution Policy Change
+The execution policy helps protect you from scripts that you do not trust. Changing the execution policy might expose
+you to the security risks described in the about_Execution_Policies help topic at
+https:/go.microsoft.com/fwlink/?LinkID=135170. Do you want to change the execution policy?
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"): Y
+(base) PS C:\Users\%username%> Get-ExecutionPolicy -Scope CurrentUser
+RemoteSigned
+```
+
+
+
+##### references
+
+> 是否需要勾选环境变量
+>
+> https://blog.csdn.net/weixin_46044549/article/details/104671464
+>
+> 官网教程
+> https://docs.anaconda.com/anaconda/install/windows
+>
+> 参考教程
+>
+> https://blog.csdn.net/AV_VA1/article/details/149650588
+>
+> https://blog.csdn.net/machinelear/article/details/149466359?fromshare=blogdetail&sharetype=blogdetail&sharerId=149466359&sharerefer=PC&sharesource=qq_73921758&sharefrom=from_link
+>
+> 环境变量内容参考
+> https://blog.csdn.net/m0_74055982/article/details/140220250?fromshare=blogdetail&sharetype=blogdetail&sharerId=140220250&sharerefer=PC&sharesource=qq_73921758&sharefrom=from_link
+
+#### 
 
 
 
@@ -1034,6 +1076,21 @@ https://ask.csdn.net/questions/7548212
 
 
 
+
+
+
+## Python
+
+### BBPC
+
+- version
+  3.13.6
+- link
+  https://www.python.org/downloads/windows/
+
+reference
+
+> https://blog.csdn.net/sensen_kiss/article/details/141940274
 
 
 
